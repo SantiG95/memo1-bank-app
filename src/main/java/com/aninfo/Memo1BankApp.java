@@ -1,9 +1,7 @@
 package com.aninfo;
 
 import com.aninfo.model.Account;
-import com.aninfo.model.Transaction;
 import com.aninfo.service.AccountService;
-import com.aninfo.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +18,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+import com.aninfo.model.Transaction;
+import com.aninfo.service.TransactionService;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @SpringBootApplication
@@ -31,20 +32,17 @@ public class Memo1BankApp {
 	private TransactionService transactionService;
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(Memo1BankApp.class, args);
 	}
 
 	@PostMapping("/accounts")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Account createAccount(@RequestBody Account account) {
-
 		return accountService.createAccount(account);
 	}
 
 	@GetMapping("/accounts")
 	public Collection<Account> getAccounts() {
-
 		return accountService.getAccounts();
 	}
 
@@ -68,33 +66,44 @@ public class Memo1BankApp {
 
 	@DeleteMapping("/accounts/{cbu}")
 	public void deleteAccount(@PathVariable Long cbu) {
-
 		accountService.deleteById(cbu);
 	}
 
 	@PutMapping("/accounts/{cbu}/withdraw")
 	public Account withdraw(@PathVariable Long cbu, @RequestParam Double sum) {
-
 		return accountService.withdraw(cbu, sum);
 	}
 
 	@PutMapping("/accounts/{cbu}/deposit")
 	public Account deposit(@PathVariable Long cbu, @RequestParam Double sum) {
-
 		return accountService.deposit(cbu, sum);
 	}
 
-	@PutMapping("/accounts/{cbu}/withdraw")
-	public Transaction withdraw() {
+	//----------------------------------------------------------------------------------------------------------------------------
 
-		return null;
+	@PostMapping("/transactions")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Transaction createTransaction(@RequestBody Transaction transaction){
+		return transactionService.createTransaction(transaction);
 	}
 
-	@PutMapping("/accounts/{cbu}/deposit")
-	public Transaction deposit() {
-
-		return null;
+	@GetMapping("/transactions/{cbu}")
+	public ResponseEntity<Transaction> getTransactionByCbu(@PathVariable Long cbu) {
+		Optional<Transaction> transactionOptional = transactionService.findByCbu(cbu);
+		return ResponseEntity.of(transactionOptional);
 	}
+
+	@GetMapping("/transactions/{id}")
+	public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
+		Optional<Transaction> transactionOptional = transactionService.findById(id);
+		return ResponseEntity.of(transactionOptional);
+	}
+
+	@DeleteMapping("/transactions/{id}")
+	public void deleteTransaction(@PathVariable Long id) {
+		transactionService.deleteById(id);
+	}
+
 
 	@Bean
 	public Docket apiDocket() {

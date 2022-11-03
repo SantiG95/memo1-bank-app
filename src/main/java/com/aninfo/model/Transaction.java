@@ -5,10 +5,11 @@ import javax.persistence.*;
 @Entity
 public class Transaction {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Account account;
+    private Long id;
+
+    private Long accountCbu;
 
     private Double value;
 
@@ -16,14 +17,20 @@ public class Transaction {
 
     }
 
-    public Transaction(Account account, Double value){
-        this.account = account;
+    public Transaction(Long accountCbu, Double value){
+        this.accountCbu = accountCbu;
         this.value = value;
     }
 
-    public Account getAccount(){ return account; }
+    public Long getId(){
+        return id;
+    }
 
-    public Double getValue(){ return value; }
+    public Long getAccountCbu(){
+        return accountCbu;
+    }
 
-    
+    public Double getValue(){
+        return value;
+    }
 }

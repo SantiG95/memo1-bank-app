@@ -10,4 +10,3 @@ public class DepositNegativeSumException extends RuntimeException {
         super(message);
     }
 }
-

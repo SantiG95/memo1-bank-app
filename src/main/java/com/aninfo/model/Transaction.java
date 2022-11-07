@@ -39,4 +39,11 @@ public class Transaction {
     }
 
     public void setValue(Double amount){this.value = amount;}
+
+    public void setValueAsDeposit() {
+    }
+
+    public void setValueAsWithdraw() {
+        this.value *= -1;
+    }
 }

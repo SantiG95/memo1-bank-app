@@ -119,10 +119,9 @@ public class Memo1BankApp {
 		return accountService.createWithdraw(transaction);
 	}
 
-	@GetMapping("/account/transactions")
-	public ResponseEntity<Transaction> getTransactionByCbu(@PathVariable Long accountCbu) {
-		Optional<Transaction> transactionOptional = accountService.getTransactionsByCbu(accountCbu);
-		return ResponseEntity.of(transactionOptional);
+	@GetMapping("/account/transactions/{accountCbu}")
+	public Collection<Transaction> getTransactionByCbu(@PathVariable Long accountCbu) {
+		return accountService.getTransactionsByCbu(accountCbu);
 	}
 
 	@GetMapping("/transactions/{id}")

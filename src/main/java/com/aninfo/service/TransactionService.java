@@ -24,29 +24,49 @@ public class TransactionService {
     private AccountService accountService;
 
     public Transaction createDeposit(Transaction transaction){
-        if(transaction.getValue() < 0){
-            throw new DepositNegativeSumException("Value cannot be negative or zero");
+        if(transaction.getValue() == 0){
+            throw new DepositZeroException("Value cannot be zero");
         }
-        return transactionRepository.save(transaction);
+        if(transaction.getValue() < 0){
+            throw new DepositNegativeSumException("Value cannot be negative");
+        }
+
+        transaction.setValue(this.applyPromo(transaction.getValue()));
+        transaction.setValueAsDeposit();
+        return save(transaction);
+    }
+
+    public double applyPromo(double value){
+        if(value >= 2000){
+            Double promotionalBonus = value * 0.1;
+            if (promotionalBonus > 500) promotionalBonus = 500.00;
+            value += promotionalBonus;
+        }
+        return value;
     }
 
     public Transaction createWithdraw(Transaction transaction){
-        if(transaction.getValue() < 0){
-            throw new DepositNegativeSumException("Value cannot be negative or zero");
+        if(transaction.getValue() == 0){
+            throw new DepositZeroException("Value cannot be zero");
         }
-        return transactionRepository.save(transaction);
+        if(transaction.getValue() < 0){
+            throw new DepositNegativeSumException("Value cannot be negative");
+        }
+
+        transaction.setValueAsWithdraw();
+        return save(transaction);
     }
 
     public Optional<Transaction> getTransactionsById(Long id){
         return this.transactionRepository.findById(id);
     }
 
-    public Optional<Transaction> getTransactionsByCbu(Long accountCbu){
-        return this.accountService.getTransactionsByCbu(accountCbu);
+    public Collection<Transaction> getTransactionsByCbu(Long accountCbu){
+        return this.transactionRepository.findTransactionsByAccountCbu(accountCbu);
     }
 
-    public void save(Transaction transaction){
-        transactionRepository.save(transaction);
+    public Transaction save(Transaction transaction){
+        return transactionRepository.save(transaction);
     }
 
     public void deleteTransaction(Long id){

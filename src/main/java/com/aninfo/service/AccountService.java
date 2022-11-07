@@ -109,9 +109,8 @@ public class AccountService {
 
     }
 
-    public Optional<Transaction> getTransactionsByCbu(Long cbu){
-        Optional<Transaction> transaction = transactionService.getTransactionsByCbu(cbu);
-        return transaction;
+    public Collection<Transaction> getTransactionsByCbu(Long cbu){
+        return transactionService.getTransactionsByCbu(cbu);
     }
 
     public void deleteTransaction(Long id){

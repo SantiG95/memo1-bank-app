@@ -21,6 +21,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import com.aninfo.model.Transaction;
 import com.aninfo.service.TransactionService;
 
+import javax.swing.text.html.Option;
+
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @SpringBootApplication
@@ -80,16 +82,16 @@ public class Memo1BankApp {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------
-
-	@PostMapping("/transactions")
+/*
+	 @PostMapping("/transactions")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Transaction createTransaction(@RequestBody Transaction transaction){
 		return transactionService.createTransaction(transaction);
 	}
 
-	@GetMapping("/transactions/{cbu}")
-	public ResponseEntity<Transaction> getTransactionByCbu(@PathVariable Long cbu) {
-		Optional<Transaction> transactionOptional = transactionService.findByCbu(cbu);
+	@GetMapping("/transactions/{account}")
+	public ResponseEntity<Transaction> getTransactionByCbu(@PathVariable Account account) {
+		Optional<Transaction> transactionOptional = transactionService.findByAccount(account);
 		return ResponseEntity.of(transactionOptional);
 	}
 
@@ -101,9 +103,39 @@ public class Memo1BankApp {
 
 	@DeleteMapping("/transactions/{id}")
 	public void deleteTransaction(@PathVariable Long id) {
+
 		transactionService.deleteById(id);
 	}
+*/
+	@PostMapping("/transactions/deposits")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Transaction createDeposit(@RequestBody Transaction transaction){
+		return accountService.createDeposit(transaction);
+	}
 
+	@PostMapping("/transactions/withdraws")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Transaction createWithDraw(@RequestBody Transaction transaction){
+		return accountService.createWithdraw(transaction);
+	}
+
+	@GetMapping("/account/transactions")
+	public ResponseEntity<Transaction> getTransactionByCbu(@PathVariable Long accountCbu) {
+		Optional<Transaction> transactionOptional = accountService.getTransactionsByCbu(accountCbu);
+		return ResponseEntity.of(transactionOptional);
+	}
+
+	@GetMapping("/transactions/{id}")
+	public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
+		Optional<Transaction> transactionOptional = accountService.getTransactionById(id);
+		return ResponseEntity.of(transactionOptional);
+	}
+
+	@DeleteMapping("/transactions/{id}")
+	public void deleteTransaction(@PathVariable Long id) {
+		accountService.deleteTransaction(id);
+	}
+	//----------------------------------------------------------------------------------------------------------------------------
 
 	@Bean
 	public Docket apiDocket() {

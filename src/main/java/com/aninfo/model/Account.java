@@ -1,6 +1,9 @@
 package com.aninfo.model;
 
+import com.aninfo.exceptions.NoTransactionFoundException;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Account {
@@ -33,5 +36,35 @@ public class Account {
     public void setBalance(Double balance) {
         this.balance = balance;
     }
+
+    //------------------------------------------------------------------------------------------------------------------
+    /*public List<Transaction> transactionList;
+
+    public void addTransaction(Transaction newTransaction){
+        transactionList.add(newTransaction);
+    }
+
+    public List<Transaction> getTransactions(){
+        return this.transactionList;
+    }
+
+    public void deleteTransaction(Long id){
+        Transaction transaction = null;
+        for (Transaction anTransaction: transactionList){
+            if(anTransaction.getId() == id){
+                transaction = anTransaction;
+                break;
+            }
+
+        }
+
+        if(transaction == null) throw new NoTransactionFoundException("No transaction found");
+        
+        transactionList.remove(
+                transactionList.indexOf(transaction)
+        );
+    }
+*/
+    //------------------------------------------------------------------------------------------------------------------
 
 }

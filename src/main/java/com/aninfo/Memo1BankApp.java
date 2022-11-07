@@ -82,31 +82,6 @@ public class Memo1BankApp {
 	}
 
 	//----------------------------------------------------------------------------------------------------------------------------
-/*
-	 @PostMapping("/transactions")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Transaction createTransaction(@RequestBody Transaction transaction){
-		return transactionService.createTransaction(transaction);
-	}
-
-	@GetMapping("/transactions/{account}")
-	public ResponseEntity<Transaction> getTransactionByCbu(@PathVariable Account account) {
-		Optional<Transaction> transactionOptional = transactionService.findByAccount(account);
-		return ResponseEntity.of(transactionOptional);
-	}
-
-	@GetMapping("/transactions/{id}")
-	public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
-		Optional<Transaction> transactionOptional = transactionService.findById(id);
-		return ResponseEntity.of(transactionOptional);
-	}
-
-	@DeleteMapping("/transactions/{id}")
-	public void deleteTransaction(@PathVariable Long id) {
-
-		transactionService.deleteById(id);
-	}
-*/
 	@PostMapping("/transactions/deposits")
 	@ResponseStatus(HttpStatus.CREATED)
 	public Transaction createDeposit(@RequestBody Transaction transaction){

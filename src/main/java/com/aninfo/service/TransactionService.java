@@ -31,7 +31,8 @@ public class TransactionService {
             throw new DepositNegativeSumException("Value cannot be negative");
         }
 
-        transaction.setValue(this.applyPromo(transaction.getValue()));
+        Double newValue = this.applyPromo(transaction.getValue());
+        transaction.setValue(newValue);
         transaction.setValueAsDeposit();
         return save(transaction);
     }

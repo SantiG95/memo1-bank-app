@@ -67,7 +67,8 @@ public class AccountService {
         }
 
         Account account = accountRepository.findAccountByCbu(cbu);
-        account.setBalance(account.getBalance() + sum);
+        Double sumWithPromo = transactionService.applyPromo(sum);;
+        account.setBalance(sumWithPromo + account.getBalance());
         accountRepository.save(account);
 
         return account;
@@ -81,8 +82,8 @@ public class AccountService {
             throw new InvalidTransactionTypeException("Invalid Transaction");
         }
 
-        Double value = transaction.getValue();
         Transaction deposit = transactionService.createDeposit(transaction);
+        Double value = transaction.getValue();
         Account account = deposit(optionalAccount.get().getCbu(), value);
 
         return deposit;
